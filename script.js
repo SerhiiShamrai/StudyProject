@@ -2,10 +2,7 @@
 
 let numberOfFilms;
 
-do
-{
-    numberOfFilms = +prompt('Скільки фільмів ви вже переглянули?', '');
-} while (!numberOfFilms);
+start();
 
 let personalMovieDB = {
     count: numberOfFilms,
@@ -15,38 +12,85 @@ let personalMovieDB = {
     privat: false
 }
 
-for (let i = 0; i < 2; i++)
-{
-    let lastMovie = prompt('Один з останніх переглянутих фільмів?', ''),
-        rating = prompt(`Як оціните фільм?`, '');
+rememberMyFilms();
 
-    if (!lastMovie || lastMovie.length > 50 || !rating || rating.length > 50)
+detectPersonalLevel();
+
+showMyDB(personalMovieDB.private);
+
+writeYourGenres();
+
+function writeYourGenres()
+{
+    for (let i = 0; i < 3; i++)
     {
-        console.log('error!');
-        i--;
+        let favoriteGenre = prompt(`Ваш улюблений жанр під номером ${i + 1}?`);
+        if (!favoriteGenre)
+        {
+            i--;
+        }
+        else
+        {
+            personalMovieDB.genres[i] = favoriteGenre; 
+        } 
     }
-    else
+}
+
+function showMyDB(hidden)
+{
+    if (!hidden)
     {
-        personalMovieDB.movies[lastMovie] = rating;
-        console.log('done!');
+        console.log(personalMovieDB);
     }
 }
 
-if (personalMovieDB.count <= 10)
+
+function detectPersonalLevel() 
 {
-    alert('Переглянуто доволі мало фільмів');
-}
-else if (personalMovieDB.count >= 30)
-{
-    alert('Ви кіноман');
-}
-else if (isNaN(personalMovieDB.count))
-{
-    alert('Виникла помилка');
-}
-else
-{
-    alert('Ви класичний глядач');
+    if (personalMovieDB.count <= 10) 
+    {
+        alert('Переглянуто доволі мало фільмів');
+    }
+    else if (personalMovieDB.count >= 30) 
+    {
+        alert('Ви кіноман');
+    }
+    else if (isNaN(personalMovieDB.count)) 
+    {
+        alert('Виникла помилка');
+    }
+    else 
+    {
+        alert('Ви класичний глядач');
+    }
 }
 
-console.log(personalMovieDB);
+function rememberMyFilms() 
+{
+    for (let i = 0; i < 2; i++) 
+    {
+        let lastMovie = prompt('Один з останніх переглянутих фільмів?', ''), 
+            rating = prompt(`Як оціните фільм?`, '');
+        if (!lastMovie || lastMovie.length > 50 || !rating || rating.length > 50) 
+        {
+            console.log('error!');
+            i--;
+        }
+        else 
+        {
+            personalMovieDB.movies[lastMovie] = rating;
+            console.log('done!');
+        }
+    }
+}
+
+
+function start() 
+{
+    do 
+    {
+        numberOfFilms = +prompt('Скільки фільмів ви вже переглянули?', '');
+    }   while (!numberOfFilms || isNaN(numberOfFilms));
+}
+
+
