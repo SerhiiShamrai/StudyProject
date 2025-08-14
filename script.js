@@ -1,9 +1,13 @@
 "use strict";
 
+let numberOfFilms;
 
-let numberOfFilms = +prompt('Скільки фільмів ви вже переглянули?', '');
+do
+{
+    numberOfFilms = +prompt('Скільки фільмів ви вже переглянули?', '');
+} while (!numberOfFilms);
 
-let personalMoveDB = {
+let personalMovieDB = {
     count: numberOfFilms,
     movies: {},
     actors: {},
@@ -11,12 +15,38 @@ let personalMoveDB = {
     privat: false
 }
 
-let lastMove1 = prompt('Один з останніх переглянутих фільмів?', ''),
-    lastMove2 = prompt('Один з останніх переглянутих фільмів?', ''),
-    rating1 = prompt(`На скільки оцінюєте ${lastMove1}?`),
-    rating2 = prompt(`На скільки оцінюєте ${lastMove2}?`);
+for (let i = 0; i < 2; i++)
+{
+    let lastMovie = prompt('Один з останніх переглянутих фільмів?', ''),
+        rating = prompt(`Як оціните фільм?`, '');
 
-personalMoveDB.movies[lastMove1] = rating1;
-personalMoveDB.movies[lastMove2] = rating2;
+    if (!lastMovie || lastMovie.length > 50 || !rating || rating.length > 50)
+    {
+        console.log('error!');
+        i--;
+    }
+    else
+    {
+        personalMovieDB.movies[lastMovie] = rating;
+        console.log('done!');
+    }
+}
 
-console.log(personalMoveDB);
+if (personalMovieDB.count <= 10)
+{
+    alert('Переглянуто доволі мало фільмів');
+}
+else if (personalMovieDB.count >= 30)
+{
+    alert('Ви кіноман');
+}
+else if (isNaN(personalMovieDB.count))
+{
+    alert('Виникла помилка');
+}
+else
+{
+    alert('Ви класичний глядач');
+}
+
+console.log(personalMovieDB);
